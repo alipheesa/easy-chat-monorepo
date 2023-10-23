@@ -1,10 +1,4 @@
 
-
-#######################
-#        BUILD        #
-#######################
-
-
 FROM node:18.15.0-alpine AS build
 
 WORKDIR /usr/src/app/client
@@ -17,16 +11,3 @@ RUN npm install
 COPY . .
 
 CMD ["npm", "run", "build"]
-
-
-
-#######################
-#        FINAL        #
-#######################
-
-
-FROM scratch AS final
-
-WORKDIR /usr/src/app/client
-
-COPY --from=builder /usr/src/app/client/dist /dist
