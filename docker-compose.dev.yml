@@ -7,6 +7,8 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile.dev
+    depends_on:
+      - core
     ports:
       - 3000:3000
     volumes:
@@ -119,7 +121,7 @@ services:
       - 9200:9200
     environment:
         - "bootstrap.memory_lock=true"
-        - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
+        - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     env_file:
       - ./env_files/elastic/.dev.env
     healthcheck:
