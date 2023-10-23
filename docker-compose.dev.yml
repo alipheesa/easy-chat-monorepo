@@ -1,0 +1,135 @@
+version: '3.8'
+
+services:
+  
+  client:
+    container_name: client
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+    ports:
+      - 3000:3000
+    volumes:
+      - ./client:/usr/src/app/client
+      - /usr/src/app/client/node_modules/
+    environment:
+      - NODE_OPTIONS=--max-old-space-size=4096
+      - CHOKIDAR_USEPOLLING=true
+      
+      
+  core:
+    container_name: core
+    build:
+      context: ./core
+      dockerfile: Dockerfile.dev
+    entrypoint: ./entrypoint.dev.sh
+    command: python manage.py runserver 0.0.0.0:8000
+    depends_on:
+      database:
+        condition: service_healthy
+      elastic:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      celery:
+        condition: service_healthy
+    ports:
+      - 8000:8000
+    volumes:
+      - ./core:/usr/src/app/core
+      - django_media_volume:/usr/src/app/core/django_media
+    env_file:
+      - ./env_files/core/.dev.env
+  
+  
+  database:
+    container_name: database
+    image: postgres:15-alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - dev_database_volume:/var/lib/postgresql/data
+    env_file:
+      - ./env_files/database/.dev.env
+    healthcheck:
+      test: pg_isready
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      
+      
+  redis:
+    container_name: redis
+    image: redis:7-alpine
+    ports:
+      - 6379:6379
+    command: redis-server /usr/local/etc/redis/redis.dev.conf
+    volumes:
+      - ./redis/redis.dev.conf:/usr/local/etc/redis/redis.dev.conf
+    healthcheck:
+      test: redis-cli -a $REDIS_PASSWORD --raw incr ping
+      interval: 30s
+      timeout: 10s
+      retries: 5
+  
+  
+  celery:
+    container_name: celery
+    build:
+      context: ./core
+      dockerfile: Dockerfile.dev
+    command: celery -A core.celery_app worker --loglevel=info --logfile=celery.log
+    depends_on:
+      redis:
+        condition: service_healthy
+    volumes:
+      - django_media_volume:/usr/src/app/core/django_media
+    env_file:
+      - ./env_files/core/.dev.env
+      - ./env_files/celery/.dev.env
+    healthcheck:
+      test: celery -A core.celery_app inspect ping
+      interval: 30s
+      timeout: 10s
+      retries: 5
+   
+   
+  flower:
+    container_name: flower
+    build:
+      context: ./core
+      dockerfile: Dockerfile.dev
+    command: celery -A core.celery_app flower --port=5555
+    ports:
+      - 5555:5555
+    env_file:
+      - ./env_files/core/.dev.env
+      - ./env_files/flower/.dev.env
+    depends_on:
+      redis:
+        condition: service_healthy
+      celery:
+        condition: service_healthy
+      
+      
+  elastic:
+    container_name: elastic
+    image: elasticsearch:7.14.0
+    ports:
+      - 9200:9200
+    environment:
+        - "bootstrap.memory_lock=true"
+        - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    env_file:
+      - ./env_files/elastic/.dev.env
+    healthcheck:
+      test: curl -s http://elastic:$ELASTIC_PASSWORD@elastic:9200 >/dev/null || exit 1
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      
+    
+volumes:
+  dev_database_volume:
+  django_media_volume:
+  
