@@ -68,8 +68,9 @@ Then, technically, you should specify a callback url to our app in provider OAut
 http://localhost/auth/accounts/google/login/callback/
 http://localhost/auth/accounts/github/login/callback/
 ```
-But it looks like setting some specific URL with specific port isn't necessary at all.
-Application homepage setting in both google and github link seems to be superfluous too when testing your application, setting it to http://localhost:3000 will work although it wouldn't make sense neither for your development nor production environment (This apparently applicable to other settings like "Authorized JavaScript origins").
+But it looks like some settings are not necessary if you are not actually deploying you app.
+
+"Application homepage" setting in both google and github link seems to be superfluous too when testing your application, setting it to http://localhost:3000 will work although it wouldn't make sense neither for your development nor production environment (This apparently applicable to other settings like "Authorized JavaScript origins").
 
 When using Google as OAuth provider, don't forget to select ./auth/userinfo.profile scope in OAuth dashboard in order to be able to retrieve user's public profile data.
 
