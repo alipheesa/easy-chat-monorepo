@@ -34,12 +34,12 @@ Note the amount of resources elasticsearch consumes on startup. This can prevent
 
 Set SENTRY_ENABLED to '1' or 'true' and add SENTRY_DSN link you've got from Sentry in order to enable Sentry.
 
-'''console
+```console
 
 SENTRY_ENABLED=0
 SENTRY_DSN=
 
-'''
+```
 
 
 ### OAuth2
@@ -135,7 +135,7 @@ Here is the list of thoughts:
 * Define a set of styling constants like colour codes beforehand, put it in a separate file (like tailwind.config.js).
 * Examine your resulting bundle size and how each imported package impacts it.
 
-I am also thinking about using these packages in the next projects:
+I am also thinking about using the following packages in the next projects:
 * framer-motion. Incredibly powerful animation tool for React. Will take your site to another level.
 * react-query. Provides us with some additional features for API calls like caching.
 
