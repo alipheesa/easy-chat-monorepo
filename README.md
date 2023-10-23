@@ -1,6 +1,7 @@
 # Easy Chat
 
 A simple fullstack chat application with both debug and production environments set up via *docker-compose*.
+
 This is the first pet project I built, and I learned a lot from it. It isn't \*perfect\*, and often not even \*good\* for obvious reasons, but it was such a valuable experience and such a nice challenge to overcome. In the end, I knew exactly what I did wrong and what I need to do in my next next projects to make my code 99% closer to the clean and easy-maintainable one.
 
 
