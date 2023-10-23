@@ -6,5 +6,6 @@ __pycache__
 
 
 # Remove in production!
+!client/env_files/.*
 !env_files/**/.*
 !.gitignore
