@@ -7,6 +7,7 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile.dev
+    restart: unless-stopped
     depends_on:
       - core
     ports:
@@ -24,6 +25,7 @@ services:
     build:
       context: ./core
       dockerfile: Dockerfile.dev
+    restart: unless-stopped
     entrypoint: ./entrypoint.dev.sh
     command: python manage.py runserver 0.0.0.0:8000
     depends_on:
@@ -47,6 +49,7 @@ services:
   database:
     container_name: database
     image: postgres:15-alpine
+    restart: unless-stopped
     ports:
       - 5432:5432
     volumes:
@@ -63,6 +66,7 @@ services:
   redis:
     container_name: redis
     image: redis:7-alpine
+    restart: unless-stopped
     ports:
       - 6379:6379
     command: redis-server /usr/local/etc/redis/redis.dev.conf
@@ -80,6 +84,7 @@ services:
     build:
       context: ./core
       dockerfile: Dockerfile.dev
+    restart: unless-stopped
     command: celery -A core.celery_app worker --loglevel=info --logfile=celery.log
     depends_on:
       redis:
@@ -101,6 +106,7 @@ services:
     build:
       context: ./core
       dockerfile: Dockerfile.dev
+    restart: unless-stopped
     command: celery -A core.celery_app flower --port=5555
     ports:
       - 5555:5555
@@ -117,6 +123,7 @@ services:
   elastic:
     container_name: elastic
     image: elasticsearch:7.14.0
+    restart: unless-stopped
     ports:
       - 9200:9200
     environment:
