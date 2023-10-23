@@ -30,6 +30,11 @@ $ docker compose -f docker-compose.prod.yml -d --build
 Note the amount of resources elasticsearch consumes on startup. This can prevent system from booting successfully on weak machines, especially in development environment. The solution is to restart crashed services one-by-one manually, when elasticsearch resource consumption is settled.
 
 
+## Advanced project setup
+
+.env files in env_files folder gives you opportunity of managing the whole project settings in one place.
+Some settings for backend (core) service are listed below.
+
 ### Sentry
 
 Set SENTRY_ENABLED to '1' or 'true' and add SENTRY_DSN link you've got from Sentry in order to enable Sentry.
