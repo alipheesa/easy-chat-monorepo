@@ -12,7 +12,7 @@ $ git clone https://github.com/alipheesa/easy-chat.git
 $ cd easy-chat
 ```
 You are done!
-Note that the whole env_files directory with sample files is included, which is considered security issue. You may want to add env_files folder in .gitignore later.
+Note that the whole env_files directory with sample files is included, which is considered security issue. You might want to add env_files folder in .gitignore later.
 
 ### Development environment (docker-compose)
 
