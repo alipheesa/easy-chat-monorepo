@@ -36,7 +36,7 @@ services:
     ports:
       - 8000:8000
     volumes:
-      - ./core:/usr/src/app
+      - ./core:/usr/src/app/core
       - django_media_volume:/usr/src/app/core/django_media
     env_file:
       - ./env_files/core/.dev.env
