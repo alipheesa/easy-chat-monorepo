@@ -150,6 +150,7 @@ As for DevOps part, at the moment of publishing this code the only things left t
 * Celery
 * Celery Flower
 * Elastic
+  
 In production environment, there is one additional service for nginx, but frontend container should be removed after successfull build, thus giving us same 7 running containers in total.
 Some crucial for modern workflows tools and services are still being tested and left unpublished, including *Jenkins* and *Kubernetes*.
 
