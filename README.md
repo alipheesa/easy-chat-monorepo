@@ -153,14 +153,17 @@ As for DevOps part, at the moment of publishing this code the only things left t
 In production environment, there is one additional service for nginx, but frontend container should be removed after successfull build, thus giving us same 7 running containers in total.
 Some crucial for modern workflows tools and services are still being tested and left unpublished, including *Jenkins* and *Kubernetes*.
 
-There is almost nothing to conclude until I posted Jenkinsfile, kubernetes manifests and helm charts, except:
+There is almost nothing to conclude until I posted Jenkinsfile, kubernetes manifests and helm charts, except one thing:
 * Always use the least priveleged user in Dockerfiles, do not manage anything as root if it can be done as simple user.
 
 
 ## System Design
 
-Maybe the most important part in real-world applications and the part I should have spent more time with.
+This might be the most important part in real-world applications and the part I should have spent more time with.
+
 Every chat application is a very high-loaded system even with a relatively small amount of concurrent active users, and some measures should be taken to cope with challenges these systems encounter. Plus, we should think about concepts of High Availability and not only take care of handling a large amount of traffic, but also make our application stable and reliable.
+
 In my system, we didn't make any database partitions or sharding. We didn't think about any redis HA architectures either (could make redis clusters or use redis sentiel).
 As regards database model, only SQL is used, although some traffic-extensive tasks (reading/updating typing or online status - the most expensive tasks in such systems) always should take advantage of NoSQL benefits like faster reads/writes for large amounts of simple queries and easier scalability.
+
 All these considerations are left for upcoming projects.
