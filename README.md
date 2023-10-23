@@ -7,25 +7,25 @@ This is the first pet project I built, and I learned a lot from it. It isn't \*p
 ## Quickstart
 
 To setup the project, simply clone the git repo:
-'''console
+```console
 $ git clone https://github.com/alipheesa/easy-chat.git
 $ cd easy-chat
-'''
+```
 You are done!
 Note that the whole env_files directory with sample files is included, which is considered security issue. You may want to add env_files folder in .gitignore later.
 
 ### Development environment (docker-compose)
 
-'''console
+```console
 $ docker compose -f docker-compose.dev.yml -d --build
-'''
+```
 
 
 ### Production environment (docker-compose)
 
-'''console
+```console
 $ docker compose -f docker-compose.prod.yml -d --build
-'''
+```
 
 Note the amount of resources elasticsearch consumes on startup. This can prevent system from booting successfully on weak machines, especially in development environment. The solution is to restart crashed services one-by-one manually, when elasticsearch resource consumption is settled.
 
@@ -46,7 +46,7 @@ SENTRY_DSN=
 
 Set OAUTH_ENABLED_\*name\* to '1' or 'true' and add ID and Secret you've got from your OAuth provider.
 
-'''console
+```console
 OAUTH_ENABLED_GOOGLE=0
 OAUTH_ID_GOOGLE=
 OAUTH_SECRET_GOOGLE=
@@ -55,13 +55,13 @@ OAUTH_ENABLED_GITHUB=0
 OAUTH_ID_GITHUB=
 OAUTH_SECRET_GITHUB=
 
-'''
+```
 
 Then, technically, you should specify a callback url to our app in provider OAuth settings. It should look like this:
-'''console
+```console
 http://localhost/auth/accounts/google/login/callback/
 http://localhost/auth/accounts/github/login/callback/
-'''
+```
 But it looks like setting some specific URL with specific port isn't necessary at all.
 Application homepage setting in both google and github link seems to be superfluous too when testing your application, setting it to http://localhost:3000 will work although it wouldn't make sense neither for your development nor production environment (This apparently applicable to other settings like "Authorized JavaScript origins").
 
