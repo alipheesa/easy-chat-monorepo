@@ -18,7 +18,7 @@ RUN apt-get update && \
 RUN pip install --upgrade pip
 
 COPY ./requirements.txt .
-RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r requirements.txt
+RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/core/wheels -r requirements.txt
 
 
 
@@ -27,14 +27,14 @@ RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r requir
 #######################
 
 
-FROM python:3.10-slim-buster
+FROM python:3.10-slim-buster AS final
 
 WORKDIR /usr/src/app/core
 
 COPY . .
 
-COPY --from=builder /usr/src/app/wheels /wheels
-COPY --from=builder /usr/src/app/requirements.txt .
+COPY --from=builder /usr/src/app/core/wheels /wheels
+COPY --from=builder /usr/src/app/core/requirements.txt .
 RUN pip install --upgrade pip
 RUN pip install --no-cache /wheels/*
 
