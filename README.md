@@ -70,7 +70,7 @@ http://localhost/auth/accounts/github/login/callback/
 ```
 But it looks like some settings are not necessary if you are not actually deploying you app.
 
-"Application homepage" setting in both google and github link seems to be superfluous too when testing your application, setting it to http://localhost:3000 will work although it wouldn't make sense neither for your development nor production environment (This apparently applicable to other settings like "Authorized JavaScript origins").
+"Application homepage" setting in both google and github seems to be superfluous too when testing your application, setting it to http://localhost:3000 will work although it wouldn't make any sense either for your development or for production environment (This apparently applicable to other settings like "Authorized JavaScript origins").
 
 When using Google as OAuth provider, don't forget to select ./auth/userinfo.profile scope in OAuth dashboard in order to be able to retrieve user's public profile data.
 
